@@ -46,7 +46,7 @@ function createMainWindow() {
     mainWindow.webContents.openDevTools();
 }
 app.whenReady().then(() => {
-    // 监听渲染进程向主进程通信（双向）
+    // 监听渲染进程向主进程通信（双向: 给渲染进程返回一个回复）
     ipcMain.handle('ping', () => 'pong');
 
     // 监听渲染进程向主进程通信（单向）
