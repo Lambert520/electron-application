@@ -2,9 +2,16 @@
     app: 控制应用程序的事件生命周期
     BrowserWindow: 创建和管理 app 的窗口
 */
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
-const createMainWindow = () => {
+const { updateElectronApp } = require('update-electron-app');
+updateElectronApp({
+    repo: 'Lambert520/electron-application',
+    updateInterval: '1 hour'
+});
+
+
+function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -13,12 +20,22 @@ const createMainWindow = () => {
             preload: path.join(__dirname, 'preload.js')
         }
     });
+    
+    ipcMain.on('set-title', (event, title) => {
+        const webContents = event.sender;
+        const win = BrowserWindow.fromWebContents(webContents);
+        win.setTitle(title);
+    });
     mainWindow.loadFile('index.html');
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
 }
 app.whenReady().then(() => {
-    // handle监听器
+    // 监听渲染进程向主进程通信（双向）
     ipcMain.handle('ping', () => 'pong');
-    // ipcMain.handle('getData', (data) => console.log("获取到的数据是", data));
+
+
+
     createMainWindow()
 
     app.on('activate', () => {
