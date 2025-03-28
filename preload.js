@@ -8,6 +8,8 @@ contextBridge.exposeInMainWorld('versions', {
     ping: () => ipcRenderer.invoke('ping'),
     // 渲染进程向主进程通信（单向）
     setTitle: (title) => ipcRenderer.send('set-title', title),
-
+    // 渲染进程向主进程通信（单向）
+    counterValue: (value) => ipcRenderer.send('counter-value', value),
+    updateCounter: (callback) => ipcRenderer.on('update-counter', (_event, value) => callback(value))
     // 除函数之外，我们也可以暴露变量
 })

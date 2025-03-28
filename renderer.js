@@ -10,3 +10,12 @@ const func2 = () => {
 }
 func2();
 
+// 加减计算器
+const counter = document.getElementById('counter')
+window.versions.updateCounter((value) => {
+    const oldValue = Number(counter.innerText);
+    const newValue = oldValue + value;
+    console.log("value的值是", newValue);
+    counter.innerText = newValue.toString();
+    window.versions.counterValue(newValue);
+})

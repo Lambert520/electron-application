@@ -7,7 +7,7 @@ const path = require('node:path');
 const { updateElectronApp } = require('update-electron-app');
 updateElectronApp({
     repo: 'Lambert520/electron-application',
-    updateInterval: '1 hour'
+    updateInterval: '5 minutes'
 });
 
 
@@ -20,7 +20,22 @@ function createMainWindow() {
             preload: path.join(__dirname, 'preload.js')
         }
     });
-    
+    const menu = Menu.buildFromTemplate([
+        {
+            label: app.name,
+            submenu: [
+                {
+                    click: () => mainWindow.webContents.send('update-counter', 1),
+                    label: 'Increment'
+                },
+                {
+                    click: () => mainWindow.webContents.send('update-counter', -1),
+                    label: 'Decrement'
+                }
+            ]
+        }
+    ]);
+    Menu.setApplicationMenu(menu);
     ipcMain.on('set-title', (event, title) => {
         const webContents = event.sender;
         const win = BrowserWindow.fromWebContents(webContents);
@@ -34,7 +49,10 @@ app.whenReady().then(() => {
     // 监听渲染进程向主进程通信（双向）
     ipcMain.handle('ping', () => 'pong');
 
-
+    // 监听渲染进程向主进程通信（单向）
+    ipcMain.on('counter-value', (_event, value) => {
+        console.log(value);
+    })
 
     createMainWindow()
 
