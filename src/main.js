@@ -7,6 +7,7 @@ const path = require('node:path');
 const { updateElectronApp } = require('update-electron-app');
 const log = require('electron-log');
 const { autoUpdater } = require('electron-updater');
+const moment = require('moment');
 
 // 5分钟后触发更新
 updateElectronApp({
@@ -16,11 +17,10 @@ updateElectronApp({
     notifyUser: true, // 显示更新提示
 });
 
-function createMainWindow() {
+async function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        show: false,
         webPreferences: {
             // 将预加载脚本附在渲染进程上(path.join创建一个跨平台的路径字符串)
             preload: path.join(__dirname, 'preload.js')
@@ -59,13 +59,15 @@ function createMainWindow() {
             ]
         }
     ]);
+
     Menu.setApplicationMenu(menu);
 
-    // 监听 ready-to-show 事件
-    mainWindow.on('ready-to-show', () => {
-        mainWindow.show(); // 内容加载完成后显示窗口
-    });
     mainWindow.loadFile('index.html');
+
+    mainWindow.on('ready-to-show', () => {
+        // 只能在页面加载完毕后，去触发事件，否则监听方法接收不到
+        mainWindow.webContents.send('getTime', moment().format('YYYY-MM-DD HH:mm:ss'));
+    })
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
 }
