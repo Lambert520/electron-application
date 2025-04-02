@@ -15,6 +15,7 @@ function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        show: false,
         webPreferences: {
             // 将预加载脚本附在渲染进程上(path.join创建一个跨平台的路径字符串)
             preload: path.join(__dirname, 'preload.js')
@@ -40,6 +41,10 @@ function createMainWindow() {
         const webContents = event.sender;
         const win = BrowserWindow.fromWebContents(webContents);
         win.setTitle(title);
+    });
+    // 监听 ready-to-show 事件
+    mainWindow.on('ready-to-show', () => {
+        mainWindow.show(); // 内容加载完成后显示窗口
     });
     mainWindow.loadFile('index.html');
     // Open the DevTools.
