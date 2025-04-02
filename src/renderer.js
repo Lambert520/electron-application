@@ -21,7 +21,7 @@ window.versions.updateCounter((_event, value) => {
 
 // 显示时间
 const timeP = document.getElementById('timer');
-window.versions.getTime((_event, time)=>{
+window.versions.getTime((_event, time) => {
     timeP.innerText = time;
 });
 
@@ -30,13 +30,13 @@ let update_info = null; // 更新信息
 const download = document.getElementById('download');
 
 window.versions.onUpdate((_event, info) => {
-  update_info = info;
-  download.innerText = update_info;
+    update_info = info;
+    download.innerText = `检测到更新，安装包下载中...             +网速：${update_info.speed}         进度：${update_info.percent}`;
 });
 window.versions.onDownloaded(() => {
-  update_info = null;
-  let res = confirm('新版本已下载，是否立即安装？');
-  if (res) {
-    window.elecAPI.toInstall();
-  }
+    update_info = null;
+    let res = confirm('新版本已下载，是否立即安装？');
+    if (res) {
+        window.elecAPI.toInstall();
+    }
 });
