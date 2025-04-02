@@ -5,18 +5,19 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
 const { updateElectronApp } = require('update-electron-app');
-const log = require('electron-log');
-const { autoUpdater } = require('electron-updater');
+// const log = require('electron-log');
 const moment = require('moment');
+const checkUpdate = require('./update.js');
 
-// 5分钟后触发更新
-updateElectronApp({
-    repo: 'Lambert520/electron-application',
-    updateInterval: '5 minutes',
-    logger: log, // 添加日志记录
-    notifyUser: true, // 显示更新提示
-});
+// // 5分钟后触发更新
+// updateElectronApp({
+//     repo: 'Lambert520/electron-application',
+//     updateInterval: '5 minutes',
+//     logger: log, // 添加日志记录
+//     notifyUser: true, // 显示更新提示
+// });
 
+let main = null;
 async function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
@@ -26,6 +27,7 @@ async function createMainWindow() {
             preload: path.join(__dirname, 'preload.js')
         }
     });
+    main = mainWindow;
     const menu = Menu.buildFromTemplate([
         {
             role: 'fileMenu',    // 文件菜单 (Windows/Linux)
@@ -89,8 +91,7 @@ app.whenReady().then(() => {
 
     createMainWindow();
 
-    // 主动触发更新（开发环境自动禁用更新）
-    autoUpdater.checkForUpdatesAndNotify();
+    checkUpdate(main, ipcMain);
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
