@@ -5,11 +5,16 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
 const { updateElectronApp } = require('update-electron-app');
+const log = require('electron-log');
+const { autoUpdater } = require('electron-updater');
+
+// 5分钟后触发更新
 updateElectronApp({
     repo: 'Lambert520/electron-application',
-    updateInterval: '5 minutes'
+    updateInterval: '5 minutes',
+    logger: log, // 添加日志记录
+    notifyUser: true, // 显示更新提示
 });
-
 
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
@@ -55,11 +60,7 @@ function createMainWindow() {
         }
     ]);
     Menu.setApplicationMenu(menu);
-    ipcMain.on('set-title', (event, title) => {
-        const webContents = event.sender;
-        const win = BrowserWindow.fromWebContents(webContents);
-        win.setTitle(title);
-    });
+
     // 监听 ready-to-show 事件
     mainWindow.on('ready-to-show', () => {
         mainWindow.show(); // 内容加载完成后显示窗口
@@ -72,16 +73,26 @@ app.whenReady().then(() => {
     // 监听渲染进程向主进程通信（双向: 给渲染进程返回一个回复）
     ipcMain.handle('ping', () => 'pong');
 
+    // app标题设置
+    ipcMain.on('set-title', (event, title) => {
+        const webContents = event.sender;
+        const win = BrowserWindow.fromWebContents(webContents);
+        win.setTitle(title);
+    });
+
     // 监听渲染进程向主进程通信（单向）
     ipcMain.on('counter-value', (_event, value) => {
         console.log(value);
-    })
+    });
 
-    createMainWindow()
+    createMainWindow();
+
+    // 主动触发更新（开发环境自动禁用更新）
+    autoUpdater.checkForUpdatesAndNotify();
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createMainWindow()
-    })
+    });
 })
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()

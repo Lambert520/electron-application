@@ -54,8 +54,8 @@ module.exports = {
           owner: 'Lambert520',
           name: 'electron-application'
         },
-        prerelease: false,
-        draft: true
+        prerelease: false, // 发布正式版本
+        // draft: true, // 草稿
       }
     }
   ]
