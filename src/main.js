@@ -23,24 +23,6 @@ function createMainWindow() {
     });
     const menu = Menu.buildFromTemplate([
         {
-            role: 'fileMenu',    // 文件菜单 (Windows/Linux)
-            label: '文件',        // 可自定义中文标签
-            submenu: [
-                {
-                    role: 'close' // 保留关闭项
-                }
-            ]
-        },
-        {
-            role: 'editMenu' // 编辑菜单
-        },
-        {
-            role: 'viewMenu' // 视图菜单
-        },
-        {
-            role: 'windowMenu' // 窗口菜单
-        },
-        {
             label: app.name,
             submenu: [
                 {
@@ -52,7 +34,7 @@ function createMainWindow() {
                     label: 'Decrement'
                 }
             ]
-        },
+        }
     ]);
     Menu.setApplicationMenu(menu);
     ipcMain.on('set-title', (event, title) => {
