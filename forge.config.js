@@ -4,14 +4,17 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
-    name: "wallsale",
-    icon: './images/icon.ico'
+    name: "electron_app",
+    icon: './icons/icon'
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        icon: './icons/icon.ico',
+        setupIcon: './icons/icon.ico'
+      },
     },
     {
       name: '@electron-forge/maker-zip',
