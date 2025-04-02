@@ -54,8 +54,10 @@ module.exports = {
           owner: 'Lambert520',
           name: 'electron-application'
         },
-        prerelease: false, // 发布正式版本
-        // draft: true, // 草稿
+        prerelease: false,   // 非预发布
+        draft: false,        // 非草稿
+        releaseType: 'release', // 明确指定发布类型
+        generateReleaseNotes: true // 自动生成发布说明
       }
     }
   ]
