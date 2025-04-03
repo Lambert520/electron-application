@@ -29,7 +29,8 @@ window.versions.getTime((_event, time) => {
 let update_info = null; // 更新信息
 const download = document.getElementById('download');
 const progress = document.getElementById('progress');
-
+download.innerText = '更新信息';
+progress.innerText = '版本信息';
 window.versions.updateAvail((_event, info) => {
     progress.innerText = info.version + '...' + info.releaseDate + '---' + info.releaseNotes;
 })
