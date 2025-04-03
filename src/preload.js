@@ -15,7 +15,8 @@ contextBridge.exposeInMainWorld('versions', {
     getTime: (callback) => ipcRenderer.on('getTime', callback),
     // 下载相关方法
     toInstall: () => ipcRenderer.invoke('install'),
-    onUpdate: (callback) => ipcRenderer.on('update', callback),
-    onDownloaded: (callback) => ipcRenderer.on('downloaded', callback),
+    updateAvail: (callback) => ipcRenderer.on('update-available', callback),
+    onUpdate: (callback) => ipcRenderer.on('download-progress', callback),
+    onDownloaded: (callback) => ipcRenderer.on('update-downloaded', callback),
     // 除函数之外，我们也可以暴露变量
 })

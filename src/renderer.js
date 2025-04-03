@@ -28,7 +28,11 @@ window.versions.getTime((_event, time) => {
 // 应用更新
 let update_info = null; // 更新信息
 const download = document.getElementById('download');
+const progress = document.getElementById('progress');
 
+window.versions.updateAvail((_event, info) => {
+    progress.innerText = info.version + '...' + info.releaseDate + '---' + info.releaseNotes;
+})
 window.versions.onUpdate((_event, info) => {
     update_info = info;
     download.innerText = `检测到更新，安装包下载中...             +网速：${update_info.speed}         进度：${update_info.percent}`;
