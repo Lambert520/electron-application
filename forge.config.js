@@ -1,11 +1,18 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const path = require('node:path');
 
 module.exports = {
   packagerConfig: {
     asar: true,
     name: "electron_app",
-    icon: './icons/icon'
+    executableName: 'electron_app',
+    icon: './icons/icon',
+    appBundleId: 'com.electron_app',
+    // 核心配置：强制包含所有 YAML 文件
+    extraResource: [
+      './app-update.yml' // 直接使用相对路径
+    ],
   },
   rebuildConfig: {},
   makers: [

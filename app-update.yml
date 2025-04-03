@@ -1,0 +1,6 @@
+# app-update.yml
+provider: github
+owner: Lambert520
+repo: electron-application
+vPrefixedTagName: true # 使用 v 前缀标签
+updaterCacheDirName: .electron_app-updater-cache # 自定义缓存目录

@@ -1,6 +1,6 @@
 {
   "name": "electron_application",
-  "version": "1.9.8",
+  "version": "1.9.9",
   "description": "electron的学习",
   "main": "src/main.js",
   "scripts": {

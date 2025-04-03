@@ -4,8 +4,8 @@
 */
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
-const { updateElectronApp } = require('update-electron-app');
-const log = require('electron-log');
+// const { updateElectronApp } = require('update-electron-app');
+// const log = require('electron-log');
 const moment = require('moment');
 const checkUpdate = require('./update.js');
 
@@ -18,7 +18,7 @@ const checkUpdate = require('./update.js');
 // });
 
 let main = null;
-async function createMainWindow() {
+function createMainWindow() {
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
