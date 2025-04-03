@@ -5,17 +5,17 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('node:path');
 const { updateElectronApp } = require('update-electron-app');
-// const log = require('electron-log');
+const log = require('electron-log');
 const moment = require('moment');
 const checkUpdate = require('./update.js');
 
-// // 5分钟后触发更新
-// updateElectronApp({
-//     repo: 'Lambert520/electron-application',
-//     updateInterval: '5 minutes',
-//     logger: log, // 添加日志记录
-//     notifyUser: true, // 显示更新提示
-// });
+// 5分钟后触发更新
+updateElectronApp({
+    repo: 'Lambert520/electron-application',
+    updateInterval: '5 minutes',
+    logger: log, // 添加日志记录
+    notifyUser: true, // 显示更新提示
+});
 
 let main = null;
 async function createMainWindow() {
@@ -61,7 +61,6 @@ async function createMainWindow() {
             ]
         }
     ]);
-
     Menu.setApplicationMenu(menu);
 
     mainWindow.loadFile('index.html');
