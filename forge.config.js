@@ -13,6 +13,14 @@ module.exports = {
     extraResource: [
       './app-update.yml' // 直接使用相对路径
     ],
+    // 关键：生成完整的更新元数据
+    generateUpdatesFilesForAllChannels: true,
+    protocols: [
+      {
+        name: 'electron_app',
+        schemes: ['electron_app']
+      }
+    ]
   },
   rebuildConfig: {},
   makers: [
@@ -64,7 +72,8 @@ module.exports = {
         prerelease: false,   // 非预发布
         draft: false,        // 非草稿
         releaseType: 'release', // 明确指定发布类型
-        generateReleaseNotes: true // 自动生成发布说明
+        generateReleaseNotes: true, // 自动生成发布说明
+        forceRuntimeDependencies: true, // 强制上传元数据文件
       }
     }
   ]
