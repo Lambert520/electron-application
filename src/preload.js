@@ -18,5 +18,6 @@ contextBridge.exposeInMainWorld('versions', {
     updateAvail: (callback) => ipcRenderer.on('update-available', callback),
     onUpdate: (callback) => ipcRenderer.on('download-progress', callback),
     onDownloaded: (callback) => ipcRenderer.on('update-downloaded', callback),
+    onError: (callback) => ipcRenderer.on('update-error', callback),
     // 除函数之外，我们也可以暴露变量
 })

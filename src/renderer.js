@@ -45,3 +45,6 @@ window.versions.onDownloaded(() => {
         window.elecAPI.toInstall();
     }
 });
+window.versions.onError((_event, info) => {
+   console.log("报错信息", info);
+});
